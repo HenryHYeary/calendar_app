@@ -4,6 +4,7 @@ import Image from "next/image";
 import Logo from "@/public/logo.png"
 import { VisuallyHidden } from "@/components/ui/visually-hidden";
 import { signIn } from "../utils/auth";
+import { GoogleAuthButton, GitHubAuthButton } from "./SubmitButtons";
 
 const AuthModal = () => {
   return (
@@ -25,7 +26,13 @@ const AuthModal = () => {
                 "use server"
                 await signIn("google")
               }} className="w-full">
-                <Button className="w-full">Sign in with Google</Button>
+                <GoogleAuthButton />
+              </form>
+              <form action={async () => {
+                "use server"
+                await signIn("github")
+              }}>
+                <GitHubAuthButton />
               </form>
               <Button>Sign in with GitHub</Button>
             </div>
