@@ -3,6 +3,9 @@ import Link from "next/link"
 import Image from "next/image"
 import Logo from '@/public/logo.png'
 import DashboardLinks from "../components/DashboardLinks"
+import { SheetTrigger, Sheet } from "@/components/ui/sheet"
+import { Menu } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const DashboardLayout = ({ children }: {children: ReactNode}) => {
   return (
@@ -28,7 +31,14 @@ const DashboardLayout = ({ children }: {children: ReactNode}) => {
           <div className="flex flex-col">
             <header className="flex h-14 items-center gap-4 border-b bg-muted/40
             px-4 lg:h-[60px] lg:px-6">
-              <h1>hello</h1>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button className="md:hidden shrink-0" size="icon"
+                variant="outline">
+                  <Menu className="size-5"/>
+                </Button>
+              </SheetTrigger>
+            </Sheet>
             </header>
           </div>
       </div>
