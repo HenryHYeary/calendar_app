@@ -3,9 +3,11 @@ import Link from "next/link"
 import Image from "next/image"
 import Logo from '@/public/logo.png'
 import DashboardLinks from "../components/DashboardLinks"
-import { SheetTrigger, Sheet } from "@/components/ui/sheet"
+import { SheetTrigger, Sheet, SheetContent } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { DialogTitle } from "@/components/ui/dialog"
+import { ThemeToggle } from "../components/ThemeToggle"
 
 const DashboardLayout = ({ children }: {children: ReactNode}) => {
   return (
@@ -38,7 +40,17 @@ const DashboardLayout = ({ children }: {children: ReactNode}) => {
                   <Menu className="size-5"/>
                 </Button>
               </SheetTrigger>
+              <SheetContent side="left" className="flex flex-col">
+                <nav className="grid gap-2 mt-10">
+                  <DialogTitle>Dashboard</DialogTitle>
+                  <DashboardLinks /> 
+                </nav>
+              </SheetContent>
             </Sheet>
+
+              <div className="ml-auto flex items-center gap-x-4">
+                <ThemeToggle />
+              </div>
             </header>
           </div>
       </div>

@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Image from "next/image";
 import Logo from "@/public/logo.png"
-import { VisuallyHidden } from "@/components/ui/visually-hidden";
 import { signIn } from "../utils/auth";
 import { GoogleAuthButton, GitHubAuthButton } from "./SubmitButtons";
 
@@ -12,9 +11,10 @@ const AuthModal = () => {
       <DialogTrigger asChild>
         <Button>Try for Free</Button>
       </DialogTrigger>
-      <VisuallyHidden>
-        <DialogTitle>
           <DialogContent className="sm:max-w-[360px]">
+            <DialogTitle aria-label="Sign In">
+              Sign In
+            </DialogTitle>
             <DialogHeader className="flex flex-row justify-center items-center gap-2">
               <Image src={Logo} alt="Logo" className="size-10" />
               <h4 className="text-3xl font-semibold">
@@ -37,8 +37,6 @@ const AuthModal = () => {
               <Button>Sign in with GitHub</Button>
             </div>
           </DialogContent>
-        </DialogTitle>
-      </VisuallyHidden>
     </Dialog>
   )
 }
