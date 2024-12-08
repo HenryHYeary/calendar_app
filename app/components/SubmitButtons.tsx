@@ -20,7 +20,7 @@ const SubmitButton = ({ text, variant, className }: SubmitButtonProps) => {
   return (
     <>
     {pending ? (
-      <Button disabled variant="outline">
+      <Button disabled variant="outline" className={cn("w-fit", className)}>
         <Loader2 className="size-4 mr-2 animate-spin" /> Please Wait
       </Button>
     ) : (
@@ -69,6 +69,7 @@ const GitHubAuthButton = () => {
 }
 
 export { 
+  SubmitButton,
   GoogleAuthButton, 
   GitHubAuthButton,
 }
