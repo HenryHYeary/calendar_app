@@ -14,11 +14,11 @@ const OnboardingRouteTwo = () => {
           <CardDescription>
             Now we have to connect your calendar to your account.
           </CardDescription>
-          <Image src={VideoGif} width={500} height={300} alt="Almost finished gif" className="w-full rounded-lg"/>
+          <Image src={VideoGif} width={200} height={200} alt="Almost finished gif" className="w-full rounded-lg"/>
         </CardHeader>
         <CardContent>
           <Button asChild className="w-full">
-          <Link href="/">
+          <Link href="/api/auth">
             <CalendarCheck2 className="size-4 mr-2"/>
             Connect Calendar to your Account
           </Link>
