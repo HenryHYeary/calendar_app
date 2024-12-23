@@ -11,6 +11,8 @@ import { settingsSchema } from "../utils/zodSchemas"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
+import { UploadDropzone } from "../utils/uploadthing"
+import { toast } from "sonner"
 
 interface SettingsFormProps {
   fullName: string,
@@ -41,7 +43,7 @@ const SettingsForm = ({email, fullName, profileImage}: SettingsFormProps) => {
     <Card>
       <CardHeader>
         <CardTitle>Settings</CardTitle>
-        <CardDescription>Manage your account settings.</CardDescription>
+        <CardDescription>Manage your account settings</CardDescription>
       </CardHeader>
 
       <form id={form.id} onSubmit={form.onSubmit} action={action} noValidate>
@@ -63,6 +65,12 @@ const SettingsForm = ({email, fullName, profileImage}: SettingsFormProps) => {
 
           <div className="grid gap-y-5">
             <Label>Profile Image</Label>
+            <input 
+              type="hidden" 
+              name={fields.profileImage.name}
+              key={fields.profileImage.key} 
+              value={currentProfileImage} 
+            />
             {currentProfileImage ? (
               <div className="relative size-16">
                 <img src={currentProfileImage} alt="Profile Image"
@@ -72,9 +80,19 @@ const SettingsForm = ({email, fullName, profileImage}: SettingsFormProps) => {
                   <X className="size-4"/>
                 </Button>
               </div>
-            ): (
-              <h1>no image</h1>
+            ) : (
+              <UploadDropzone onClientUploadComplete={(res) => {
+                setCurrentProfileImage(res[0].url)
+                toast.success("Profile Image has been uploaded")
+              }} 
+              onUploadError={(error) => {
+                console.log("error", error)
+                toast.error(error.message)
+              }}
+              endpoint="imageUploader" 
+              />
             )}
+            <p className="text-red-500 text-sm">{fields.profileImage.errors}</p>
           </div>
         </CardContent>
         <CardFooter>
