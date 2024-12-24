@@ -1,7 +1,9 @@
+import { updateAvailabilityAction } from "@/app/actions";
+import { SubmitButton } from "@/app/components/SubmitButtons";
 import prisma from "@/app/utils/db"
 import requireUser from "@/app/utils/hooks";
 import { times } from "@/app/utils/times";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { notFound } from "next/navigation"
@@ -31,7 +33,7 @@ const AvailabilityRoute = async () => {
           Manage your availability
         </CardDescription>
       </CardHeader>
-      <form>
+      <form action={updateAvailabilityAction}>
         <CardContent className="flex flex-col gap-y-4">
           {data.map((item) => (
             <div 
@@ -39,12 +41,13 @@ const AvailabilityRoute = async () => {
               className="grid grid-cols-1 sm:grid-cols-2 
               md:grid-cols-3 items-ecenter gap-4"
             >
+              <input type="hidden" name={`id-${item.id}`} value={item.id}/>
               <div className="flex items-center gap-x-3">
-                <Switch defaultChecked={item.isActive} />
+                <Switch name={`isActive-${item.id}`} defaultChecked={item.isActive} />
                 <p>{item.day}</p>
               </div>
               
-              <Select>
+              <Select name={`fromTime-${item.id}`} defaultValue={item.fromTime}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="From Time" />
                 </SelectTrigger>
@@ -59,7 +62,7 @@ const AvailabilityRoute = async () => {
                 </SelectContent>
               </Select>
 
-              <Select>
+              <Select name={`tillTime-${item.id}`} defaultValue={item.tillTime}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Till Time" />
                 </SelectTrigger>
@@ -76,6 +79,9 @@ const AvailabilityRoute = async () => {
             </div>
           ))}
         </CardContent>
+        <CardFooter>
+          <SubmitButton text="Save Changes"/>
+        </CardFooter>
       </form>
     </Card>
   )
