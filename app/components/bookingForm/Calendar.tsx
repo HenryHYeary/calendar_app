@@ -1,13 +1,16 @@
 "use client"
 
-import {CalendarProps, DateValue, useCalendar, useLocale} from "react-aria"
+import {useCalendar, useLocale} from "react-aria"
+import {CalendarProps, DateValue} from "@react-types/calendar"
 import {useCalendarState} from 'react-stately'
 import {createCalendar} from '@internationalized/date'
 import CalendarHeader from "./CalendarHeader"
 import CalendarGrid from "./CalendarGrid"
 
 
-const Calendar = (props: CalendarProps<DateValue>) => {
+const Calendar = (props: CalendarProps<DateValue> & {
+  isDateUnavailable?: (date: DateValue) => boolean
+}) => {
   const { locale } = useLocale()
   let state = useCalendarState({
     ...props,
@@ -33,7 +36,7 @@ const Calendar = (props: CalendarProps<DateValue>) => {
       />
 
       <div className="flex gap-8">
-        <CalendarGrid state={state}/>
+        <CalendarGrid state={state} isDateUnavailable={props.isDateUnavailable}/>
       </div>
     </div>
   )
