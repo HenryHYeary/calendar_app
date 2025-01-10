@@ -263,3 +263,77 @@ export async function cancelMeetingAction(formData: FormData) {
 
   revalidatePath("/dashboard/meetings")
 }
+
+export async function EditEventTypeAction(formData: FormData) {
+  const session = await requireUser()
+
+  const submission = parseWithZod(formData, {
+    schema: eventTypeSchema,
+  })
+
+  if (submission.status !== "success") {
+    return submission.reply()
+  }
+
+  const data = await prisma.eventType.update({
+    where: {
+      id: formData.get("id") as string,
+      userId: session.user?.id
+    },
+    data: {
+      title: submission.value.title,
+      duration: submission.value.duration,
+      url: submission.value.url
+    }
+  })
+}
+
+export async function UpdateEventTypeStatusAction(
+prevState: any,  
+{
+  eventTypeId, 
+  isChecked,
+}:{
+  eventTypeId: string,
+  isChecked: boolean
+}) {
+  try {
+    const session = await requireUser()
+
+    const data = await prisma.eventType.update({
+      where: {
+        id: eventTypeId,
+        userId: session.user?.id
+      },
+      data: {
+        active: isChecked,
+      }
+    })
+
+    revalidatePath("/dashboard")
+  
+    return {
+      status: "success",
+      message: "Event Type Status updated",
+    }
+
+  } catch (error) {
+    return {
+      status: "error",
+      message: "Something went wrong",
+    }
+  }
+}
+
+export async function DeleteEventTypeAction(formData: FormData) {
+  const session = await requireUser()
+
+  const data = await prisma.eventType.delete({
+    where: {
+      id: formData.get("id") as string,
+      userId: session.user?.id,
+    }
+  })
+
+  return redirect("/dashboard")
+}
