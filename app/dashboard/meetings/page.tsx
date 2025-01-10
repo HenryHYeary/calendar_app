@@ -35,7 +35,7 @@ async function getData(userId: string) {
   return data
 }
 
-const MeetingsRoute = async (userId: string) => {
+const MeetingsRoute = async () => {
   const session = await requireUser()
   const data = await getData(session.user?.id as string)
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -56,15 +56,20 @@ const MeetingsRoute = async (userId: string) => {
                 <input type="hidden" name="eventId" value={item.id} />
                 <div className="grid grid-cols-3 justify-between items-center pb-0.5">
                   <div>
-                  {/* <p className="font-semibold pb-0.5">{item.title}</p> */}
                     <p className="text-muted-foreground text-sm">{
+                      //@ts-ignore
                     item.when.startTime ? format(toZonedTime(fromUnixTime(item.when.startTime), timeZone), "EE, MMM dd") :  
+                    //@ts-ignore
                     format(toZonedTime(new Date(`${item.when.startDate}T00:00:00`), timeZone), "EE, MMM dd") 
                     }</p>
                     <p className="text-muted-foreground text-xs pt-1">
+                      {/* @ts-ignore */}
                       {item.when.startTime ? format(toZonedTime(fromUnixTime(item.when.startTime), timeZone), "hh:mm a") :
+                      // @ts-ignore
                       format(toZonedTime(new Date(`${item.when.startDate}T00:00:00`), timeZone), "hh:mm a")}-{
+                        // @ts-ignore
                         item.when.endTime ? format(toZonedTime(fromUnixTime(item.when.endTime), timeZone), "hh:mm a") :
+                        // @ts-ignore
                         `${format(toZonedTime(new Date(`${item.when.endDate}T00:00:00`), timeZone), "hh:mm a")}` + ` (${format(toZonedTime(new Date(`${item.when.endDate}T00:00:00`), timeZone), "EE, MMM dd")})` 
                         }
                     </p>
@@ -74,6 +79,7 @@ const MeetingsRoute = async (userId: string) => {
                         <Video className="size-4 mr-2 text-primary" />
                       <a 
                         className="text-xs text-primary underline underline-offset-4" 
+                        // @ts-ignore
                         href={item.conferencing.details.url}
                         target="_blank"
                       >
