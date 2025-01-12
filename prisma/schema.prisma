@@ -96,7 +96,6 @@ model EventType {
   url String
   description String
   active Boolean @default(true)
-  videoCallSoftware String @default("Google Meet")
 
   createdAt DateTime @default(now())
   User User? @relation(fields: [userId], references: [id])

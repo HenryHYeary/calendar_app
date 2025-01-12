@@ -5,9 +5,8 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectLabel, SelectTrigger, SelectValue, SelectGroup, SelectContent, SelectItem } from "@/components/ui/select"
-import ButtonGroup from "@/components/ui/ButtonGroup"
 import { Button } from "@/components/ui/button"
-import { useActionState, useState } from "react"
+import { useActionState } from "react"
 import Link from "next/link"
 import { SubmitButton } from "@/app/components/SubmitButtons"
 import { CreateEventTypeAction } from "@/app/actions"
@@ -15,19 +14,15 @@ import { useForm } from "@conform-to/react"
 import { parseWithZod } from "@conform-to/zod"
 import { eventTypeSchema } from "@/app/utils/zodSchemas"
 
-type VideoCallProvider = "Zoom Meeting" | "Google Meet" | "Microsoft Teams"
-
 interface EditEventFormProps {
   id: string;
   title: string;
   url: string;
   description: string;
   duration: number;
-  callProvider: string;
 }
 
-const EditEventForm = ({ callProvider, description, duration, id, title, url }: EditEventFormProps) => {
-  const [activePlatform, setActivePlatform] = useState<VideoCallProvider>(callProvider as VideoCallProvider)
+const EditEventForm = ({  description, duration, id, title, url }: EditEventFormProps) => {
   
     const [lastResult, action] = useActionState(CreateEventTypeAction, undefined)
   
@@ -114,48 +109,6 @@ const EditEventForm = ({ callProvider, description, duration, id, title, url }: 
                 </SelectContent>
               </Select>
               <p className="text-red-500 text-sm">{fields.duration.errors}</p>
-            </div>
-
-            <div className="grid gap-y-2">
-              <Label>Video Call Provider</Label>
-              <input 
-                type="hidden"
-                name={fields.videoCallSoftware.name} 
-                value={activePlatform} 
-              />
-              <ButtonGroup>
-                <Button 
-                  type="button"
-                  onClick={() => setActivePlatform("Zoom Meeting")} 
-                  className="w-full"
-                  variant={
-                    activePlatform === "Zoom Meeting" ? "secondary" : "outline"
-                  }
-                >
-                  Zoom
-                </Button>
-                <Button 
-                  type="button"
-                  onClick={() => setActivePlatform("Google Meet")} 
-                  className="w-full"
-                  variant={
-                    activePlatform === "Google Meet" ? "secondary" : "outline"
-                  }
-                >
-                  Google Meet
-                </Button>
-                <Button 
-                  type="button"
-                  onClick={() => setActivePlatform("Microsoft Teams")} 
-                  className="w-full"
-                  variant={
-                    activePlatform === "Microsoft Teams" ? "secondary" : "outline"
-                  }
-                >
-                  Microsoft Teams
-                </Button>
-              </ButtonGroup>
-              <p className="text-red-500 text-sm">{fields.videoCallSoftware.errors}</p>
             </div>
           </CardContent>
           <CardFooter className="w-full flex justify-between">

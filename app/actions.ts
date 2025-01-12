@@ -164,7 +164,6 @@ export async function CreateEventTypeAction(prevState: any, formData: FormData) 
       duration: submission.value.duration,
       url: submission.value.url,
       description: submission.value.description,
-      videoCallSoftware: submission.value.videoCallSoftware,
       userId: session.user?.id
     }
   })
@@ -200,8 +199,7 @@ export async function CreateMeetingAction(formData: FormData) {
   const fromTime = formData.get("fromTime") as string
   const eventDate = formData.get("eventDate") as string
   const meetingLength = Number(formData.get("meetingLength"))
-  const provider = formData.get("provider") as string
-
+  
   const startDateTime = new Date(`${eventDate}T${fromTime}:00`)
 
   const endDateTime = new Date(startDateTime.getTime() + meetingLength * 60000)
@@ -214,10 +212,6 @@ export async function CreateMeetingAction(formData: FormData) {
       when: {
         startTime: Math.floor(startDateTime.getTime() / 1000),
         endTime: Math.floor(endDateTime.getTime() / 1000),
-      },
-      conferencing: {
-        autocreate: {},
-        provider: provider as any,
       },
       participants: [
         {

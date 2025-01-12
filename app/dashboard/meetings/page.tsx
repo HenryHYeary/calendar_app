@@ -8,7 +8,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator"
 import { format, fromUnixTime } from "date-fns"
 import { toZonedTime } from "date-fns-tz"
-import { Video } from "lucide-react"
 
 async function getData(userId: string) {
   const userData = await prisma.user.findUnique({
@@ -25,10 +24,16 @@ async function getData(userId: string) {
     throw new Error("User not found")
   }
 
+  const now = new Date()
+  const startsAfter = Math.floor(now.getTime() / 1000)
+  const endsBefore = Math.floor(new Date(now.setMonth(now.getMonth() + 3)).getTime() / 1000)
+
   const data = await nylas.events.list({
     identifier: userData.grantId as string,
     queryParams: {
-      calendarId: userData.grantEmail as string
+      calendarId: userData.grantEmail as string,
+      start: startsAfter.toString(),
+      end: endsBefore.toString()
     }
   })
 
@@ -73,26 +78,10 @@ const MeetingsRoute = async () => {
                         `${format(toZonedTime(new Date(`${item.when.endDate}T00:00:00`), timeZone), "hh:mm a")}` + ` (${format(toZonedTime(new Date(`${item.when.endDate}T00:00:00`), timeZone), "EE, MMM dd")})` 
                         }
                     </p>
-
-                    {item.conferencing && Object.hasOwn(item.conferencing, "details") ? (
-                      <div className="flex items-center mt-1">
-                        <Video className="size-4 mr-2 text-primary" />
-                      <a 
-                        className="text-xs text-primary underline underline-offset-4" 
-                        // @ts-ignore
-                        href={item.conferencing.details.url}
-                        target="_blank"
-                      >
-                        Join Meeting
-                      </a>
-                      </div>
-                    ) : (
-                      <div></div>
-                    )}
                   </div>
                   <div className="flex flex-col items-start">
                       <h2 className="text-sm font-medium">{item.title}</h2>
-                      {item.participants[0].name ? (
+                      {item.participants?.[0]?.name ? (
                         <p className="text-sm text-muted-foreground">You and {item.participants[0].name}</p>
                       ) : (
                         <div></div>

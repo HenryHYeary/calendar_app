@@ -13,7 +13,6 @@ async function getData(eventTypeId: string) {
       description: true,
       duration: true,
       url: true,
-      videoCallSoftware: true,
     },
   })
 
@@ -34,7 +33,6 @@ const EditRoute = async (
 
   return (
     <EditEventForm 
-      callProvider={data.videoCallSoftware} 
       description={data.description}
       duration={data.duration}
       id={data.id}

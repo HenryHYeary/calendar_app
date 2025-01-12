@@ -34,7 +34,6 @@ const AuthModal = () => {
               }}>
                 <GitHubAuthButton />
               </form>
-              <Button>Sign in with GitHub</Button>
             </div>
           </DialogContent>
     </Dialog>

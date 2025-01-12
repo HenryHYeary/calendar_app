@@ -24,7 +24,6 @@ async function getData(eventUrl: string, userName: string) {
       description: true,
       title: true,
       duration: true,
-      videoCallSoftware: true,
       User: {
         select: {
           image: true,
@@ -98,13 +97,6 @@ const BookingFormRoute = async (
                   {data.duration} Minutes
                 </span>
               </p>
-
-              <p className="flex items-center">
-                <VideoIcon className="size-4 mr-2 text-primary" />
-                <span className="text-sm font-medium text-muted-foreground">
-                  {data.videoCallSoftware}
-                </span>
-              </p>
             </div>
           </div>
 
@@ -114,15 +106,14 @@ const BookingFormRoute = async (
             <input type="hidden" name="fromTime" value={searchParams.time} />
             <input type="hidden" name="eventDate" value={searchParams.date} />
             <input type="hidden" name="meetingLength" value={data.duration} />
-            <input type="hidden" name="provider" value={data.videoCallSoftware} />
             <input type="hidden" name="username" value={params.username} />
             <input type="hidden" name="eventTypeId" value={data.id} />
             <div className="flex flex-col gap-y-2">
-              <Label>Your Name</Label>
-              <Input name="name" placeholder="Your Name" />
+              <Label>Recipient's Name</Label>
+              <Input name="name" placeholder="Recipient's Name" />
             </div>
             <div className="flex flex-col gap-y-2">
-              <Label>Your Email</Label>
+              <Label>Recipient's Email</Label>
               <Input name="email" placeholder="name@example.com" />
               <SubmitButton text="Book Meeting" />
             </div>
@@ -156,13 +147,6 @@ const BookingFormRoute = async (
                 <Clock className="size-4 mr-2 text-primary" />
                 <span className="text-sm font-medium text-muted-foreground">
                   {data.duration} Minutes
-                </span>
-              </p>
-
-              <p className="flex items-center">
-                <VideoIcon className="size-4 mr-2 text-primary" />
-                <span className="text-sm font-medium text-muted-foreground">
-                  {data.videoCallSoftware}
                 </span>
               </p>
             </div>
