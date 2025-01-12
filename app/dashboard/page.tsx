@@ -81,7 +81,7 @@ const DashboardPage = async () => {
                         <DropdownMenuItem asChild>
                           <Link href={`/${data.userName}/${item.url}`}>
                             <ExternalLink className="mr-2 size-4" />
-                            Preview
+                            Schedule
                           </Link>
                         </DropdownMenuItem>
                         <CopyLinkMenuItem meetingUrl={`${process.env.NEXT_PUBLIC_URL}/${data.userName}/${item.url}`} />
@@ -119,6 +119,9 @@ const DashboardPage = async () => {
                 </Link>
                 <div className="bg-muted px-5 py-3 justify-between items-center flex">
                   <MenuActiveSwitch initialChecked={item.active} eventTypeId={item.id} />
+                  <Button asChild>
+                    <Link href={`/${data.userName}/${item.url}`}>Schedule Event</Link>
+                  </Button>
                   <Button asChild>
                     <Link href={`/dashboard/event/${item.id}`}>Edit Event</Link>
                   </Button>
