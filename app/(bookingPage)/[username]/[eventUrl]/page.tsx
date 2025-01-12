@@ -109,11 +109,11 @@ const BookingFormRoute = async (
             <input type="hidden" name="username" value={params.username} />
             <input type="hidden" name="eventTypeId" value={data.id} />
             <div className="flex flex-col gap-y-2">
-              <Label>Recipient's Name</Label>
+              <Label>Recipient&apos;s Name</Label>
               <Input name="name" placeholder="Recipient's Name" />
             </div>
             <div className="flex flex-col gap-y-2">
-              <Label>Recipient's Email</Label>
+              <Label>Recipient&apos;s Email</Label>
               <Input name="email" placeholder="name@example.com" />
               <SubmitButton text="Book Meeting" />
             </div>
