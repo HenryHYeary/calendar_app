@@ -3,7 +3,6 @@ import { nylas, nylasConfig } from "@/app/utils/nylas";
 import { NextRequest } from "next/server";
 import prisma from "@/app/utils/db";
 import { redirect } from "next/navigation";
-import { NylasApiError } from "nylas";
 
 export async function GET(req: NextRequest) {
   const session = await requireUser()
@@ -36,7 +35,7 @@ export async function GET(req: NextRequest) {
         grantEmail: email
       }
     })
-  } catch (error) {
+  } catch (error: any) {
     console.log("Error: ", error)
 
     if (error.statusCode === 401) {
