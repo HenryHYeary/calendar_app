@@ -3,6 +3,7 @@ import { nylas, nylasConfig } from "@/app/utils/nylas";
 import { NextRequest } from "next/server";
 import prisma from "@/app/utils/db";
 import { redirect } from "next/navigation";
+import { NylasApiError } from "nylas";
 
 export async function GET(req: NextRequest) {
   const session = await requireUser()
@@ -37,6 +38,20 @@ export async function GET(req: NextRequest) {
     })
   } catch (error) {
     console.log("Error: ", error)
+
+    if (error.statusCode === 401) {
+      await prisma.user.update({
+        where: {
+          id: session.user?.id
+        },
+        data: {
+          grantId: null,
+          grantEmail: null,
+        }
+      })
+
+      return redirect("/api/auth")
+    }
   }
 
   redirect("/dashboard")

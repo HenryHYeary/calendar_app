@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator"
 import { format, fromUnixTime } from "date-fns"
 import { toZonedTime } from "date-fns-tz"
+import { redirect } from "next/navigation"
+import { use } from "react"
 
 async function getData(userId: string) {
   const userData = await prisma.user.findUnique({
@@ -28,16 +30,21 @@ async function getData(userId: string) {
   const startsAfter = Math.floor(now.getTime() / 1000)
   const endsBefore = Math.floor(new Date(now.setMonth(now.getMonth() + 3)).getTime() / 1000)
 
-  const data = await nylas.events.list({
-    identifier: userData.grantId as string,
-    queryParams: {
-      calendarId: userData.grantEmail as string,
-      start: startsAfter.toString(),
-      end: endsBefore.toString()
-    }
-  })
-
-  return data
+  try {
+    const data = await nylas.events.list({
+      identifier: userData.grantId as string,
+      queryParams: {
+        calendarId: userData.grantEmail as string,
+        start: startsAfter.toString(),
+        end: endsBefore.toString()
+      }
+    })
+  
+    return data
+  } catch (error) {
+    console.log(error)
+    return redirect("/api/auth")
+  }
 }
 
 const MeetingsRoute = async () => {
